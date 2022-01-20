@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+
+    <div class="form-group">
+        <input 
+        formControlName="user" 
+        placeholder="enter username"
+        type="text" 
+        class="form-control" readonly/>
+    </div>
+    <p></p>
+    <div class="form-group">
+        <input 
+        formControlName="message" 
+        placeholder="What's happening?"
+        type="text" 
+        style="border: none;" 
+        class="form-control" />
+
+    </div>
+    <p></p>
+
+    <div class="button-right">
+        <button type="button" class="btn btn-primary">Tweet</button>
+    </div>
+  </form>

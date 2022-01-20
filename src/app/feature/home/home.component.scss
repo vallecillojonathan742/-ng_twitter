@@ -1,0 +1,23 @@
+.center {
+    text-align: center
+}
+
+.verticalLine { 
+    border-left: 1px solid #919191; 
+    border-right: solid 1px #919191;
+}
+
+
+.columna {
+    width:33%;
+    float:left;
+  }
+  
+  @media (max-width: 500px) {
+    
+    .columna {
+      width:auto;
+      float:none;
+    }
+    
+  }
