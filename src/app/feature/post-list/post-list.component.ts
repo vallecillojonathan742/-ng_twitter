@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { element } from 'protractor';
+import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
 import { PostList } from 'src/app/models/post-list';
 import { PostService } from 'src/app/services/post.service';
 
@@ -9,6 +8,9 @@ import { PostService } from 'src/app/services/post.service';
   styleUrls: ['./post-list.component.scss']
 })
 export class PostListComponent implements OnInit {
+
+  @Output()
+  submit = new EventEmitter<PostList>();
 
   public postList: PostList[] = [];
 
@@ -28,19 +30,15 @@ export class PostListComponent implements OnInit {
         this.postList.unshift(data);
       });
      
-    });  
+    }); 
+  }
 
-
+  updatePost(post: PostList) {
+    this.submit.emit(post);
   }
  
 
-  addPost(postArg: PostList) {
-    // debugger;
-    // let post = new PostList();
-    // post.user = postArg.user;
-    // post.message = postArg.message;
-    // post.createTweet = new Date();
-    // this.postList.unshift(post);
- 
+  deletePost(post: PostList) {
+    this.postService.deletePost(post);
   }
 }

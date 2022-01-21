@@ -12,20 +12,19 @@ import { PostService } from 'src/app/services/post.service';
 export class FormTweetComponent implements OnInit {
 
   public disabledInput = true;
-
+  public isEdit = false;
   form = new FormGroup({
     message: new FormControl('', [Validators.required, Validators.maxLength(288)]),
-    user: new FormControl('User_'+Guid.newGuid(), [Validators.required])
+    user: new FormControl('User_'+Guid.newGuid(), [Validators.required]),
+    key: new FormControl('')
   });
   
   constructor(private postService: PostService) {
   }
 
   ngOnInit(): void {
-    debugger;
     this.postService.getPostLis()
       .stateChanges().subscribe( item => {
-        debugger;
         console.log(item);
     });
   
@@ -38,9 +37,20 @@ export class FormTweetComponent implements OnInit {
       debugger;
       const post = new PostList();
       post.user = this.form.controls['user'].value;
+      post.$key =  this.form.controls['key'].value;
       post.message = this.form.controls['message'].value;
-      this.postService.insertPost(post);
+
+      if( post.$key == '' ||  post.$key == null)
+      {
+        this.postService.insertPost(post);
+      }
+      else
+      {
+        this.postService.updatePost(post,post.user);
+      }
+
       this.form.reset();
+      this.isEdit = false;
       this.disabledInput = true;
       this.form.controls['user'].setValue('User_'+Guid.newGuid());
       this.postService.selectPost = new PostList();
@@ -63,6 +73,21 @@ export class FormTweetComponent implements OnInit {
       this.disabledInput = true;
       this.form.controls['user'].setValue('User_'+Guid.newGuid());
     }
+  }
+
+  editFormTweet(post: PostList)
+  {
+    this.form.reset();
+    this.isEdit = true;
+    this.form.controls['user'].setValue(post.user);
+    this.form.controls['message'].setValue(post.message);
+    this.form.controls['key'].setValue(post.$key);
+  }
+
+  clear() {
+    this.form.reset();
+    this.form.controls['user'].setValue('User_'+Guid.newGuid());
+    this.isEdit = false;
   }
 
   

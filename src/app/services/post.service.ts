@@ -30,10 +30,15 @@ export class PostService {
 
     updatePost(post: PostList, user: string)
     {
-        this.postList.update(post.$key,post );
+        this.postList.update(post.$key,
+            {
+            user: post.user,
+            createTweet: post.createTweet,
+            message: post.message,
+        } );
     }
 
-    deletePost(post: PostList, user: string)
+    deletePost(post: PostList)
     {
         this.postList.remove(post.$key);
     }

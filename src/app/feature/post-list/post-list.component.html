@@ -7,7 +7,19 @@
                   }}</span>
     
                   <p class="content">{{ post.message }}</p>
-                  <span class="time-stamp">{{ post.createTweet }}</span>
+
+                  <div class="row">                   
+                    <div class="col-4">
+                      <span class="time-stamp">{{ post.createTweet }}</span>
+                    </div>         
+                    <div class="buttons col-8 mb-1 pr-1">
+                      <button type="button" class="btn btn-warning  btn-sm">Reply thread</button> 
+                      <button type="button" class="btn btn-success  btn-sm" (click)="updatePost(post)" >Update</button>   
+                      <button type="button" class="btn btn-danger  btn-sm" (click)="deletePost(post)">Delete</button>    
+                    </div>          
+                  </div>
+                  
+                  
             </div>
             
         </div>
