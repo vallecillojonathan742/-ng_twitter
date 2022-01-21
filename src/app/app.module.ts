@@ -8,20 +8,32 @@ import { FormTweetComponent } from './feature/form-tweet/form-tweet.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PostListComponent } from './feature/post-list/post-list.component';
 
+
+import { environment } from './../environments/environment';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { PostService } from './services/post.service';
+import { AngularFireDatabase } from 'angularfire2/database';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FormTweetComponent,
-    PostListComponent
+    PostListComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFireStorageModule,
+    
+    
   ],
-  providers: [],
+  providers: [PostService,AngularFireAuth,AngularFireDatabase],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

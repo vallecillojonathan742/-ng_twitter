@@ -1,11 +1,18 @@
 <form [formGroup]="form">
 
     <div class="form-group">
+       
         <input 
         formControlName="user" 
         placeholder="enter username"
         type="text" 
-        class="form-control" readonly/>
+        class="form-control" [readonly]="disabledInput"/>
+        
+    </div>
+    <div class="button-right ">
+        <div class="form-check form-switch display-check">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" (change)="checkedInputUser($event)">
+        </div>
     </div>
     <p></p>
     <div class="form-group">

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "twitter-clone-3cf88": {
+      "hosting": {
+        "twitter-clone": [
+          "twitter-clone-3cf88"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "twitter-clone-3cf88"
+  }
+}
