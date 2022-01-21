@@ -1,0 +1,26 @@
+<div class="container" *ngFor="let post of postList" class="post">
+    <div class="row  div-right">
+        <div class="col width">
+            <div class="colorGray">
+                <span class="user" (click)="onSelect($event)" id="{{ post.user }}">{{
+                    post.user
+                  }}</span>
+    
+                  <p class="content">{{ post.message }}</p>
+                  <span class="time-stamp">{{ post.createTweet }}</span>
+            </div>
+            
+        </div>
+    </div>
+    <p></p>
+</div>
+
+<!-- <ul class="posts">
+    <li *ngFor="let post of postList" class="post">
+      <span class="user" (click)="onSelect($event)" id="{{ post.user }}">{{
+        post.user
+      }}</span>
+      <span class="content">{{ post.message }}</span>
+      <span class="time-stamp">{{ post.createTweet }}</span>
+    </li>
+  </ul> -->

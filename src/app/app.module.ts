@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './feature/home/home.component';
 import { FormTweetComponent } from './feature/form-tweet/form-tweet.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PostListComponent } from './feature/post-list/post-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FormTweetComponent
+    FormTweetComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,
