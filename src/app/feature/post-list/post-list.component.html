@@ -1,30 +1,58 @@
 <div class="container" *ngFor="let post of postList" class="post">
-    <div class="row  div-right">
-        <div class="col width">
-            <div class="colorGray">
-                <span class="user" >{{
-                    post.user
-                  }}</span>
-    
-                  <p class="content">{{ post.message }}</p>
+  <div class="row  div-right">
+    <div class="col width">
+        <div class="colorGray">
+            <span class="user" >{{
+                post.user
+              }}</span>
 
-                  <div class="row">                   
-                    <div class="col-4">
-                      <span class="time-stamp">{{ post.createTweet }}</span>
-                    </div>         
-                    <div class="buttons col-8 mb-1 pr-1">
-                      <button type="button" class="btn btn-warning  btn-sm">Reply thread</button> 
-                      <button type="button" class="btn btn-success  btn-sm" (click)="updatePost(post)" >Update</button>   
-                      <button type="button" class="btn btn-danger  btn-sm" (click)="deletePost(post)">Delete</button>    
-                    </div>          
-                  </div>
-                  
-                  
-            </div>
-            
+              <p class="content">{{ post.message }}</p>
+
+              <div class="row">                   
+                <div class="col-4">
+                  <span class="time-stamp">{{ post.createTweet }}</span>
+                </div>         
+                <div class="buttons col-8 mb-1 pr-1">
+                  <button type="button" class="btn btn-warning  btn-sm" (click)="openThread(post)">Open thread</button> 
+                  <button type="button" class="btn btn-success  btn-sm" (click)="updatePost(post)" >Update</button>   
+                  <button type="button" class="btn btn-danger  btn-sm" (click)="deletePost(post)">Delete</button>    
+                </div>          
+              </div>
         </div>
     </div>
-    <p></p>
+  </div>
+  <p></p>
+
+  <div class="row icon-heading" *ngIf="$key == post.$key">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+    </svg>
+  </div>
+  <div *ngIf="postListSecondary.length > 0 && $key == post.$key">
+    <div *ngFor="let post2 of postListSecondary" class="post2">
+      <div class="row  div-left width2">
+        <div class="col width2">
+            <div class="colorGray2">
+                <span class="user" >{{
+                  post2.user
+                  }}</span>
+    
+                  <p class="content">{{ post2.message }}</p>
+    
+                  <div class="row">                   
+                    <div class="col-4">
+                      <span class="time-stamp">{{ post2.createTweet }}</span>
+                    </div>        
+                  </div>
+            </div>
+        </div>
+        <p></p>
+      </div>
+    </div>
+  </div>
+ 
+  <p></p>
+
 </div>
 
 <!-- <ul class="posts">

@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" *ngIf="!isItMainThread">
 
     <div class="form-group">
        
@@ -30,4 +30,37 @@
         <button type="button" class="btn btn-secondary  btn-sm" *ngIf="isEdit" (click)="clear()">Clear</button>
         <button type="button" class="btn btn-primary btn-sm" (click)="submitButton()">Tweet</button>
     </div>
-  </form>
+</form>
+
+<form [formGroup]="formSecondaryThread" *ngIf="isItMainThread">
+
+    <div class="form-group">
+       
+        <input 
+        formControlName="user" 
+        placeholder="enter username"
+        type="text" 
+        class="form-control" [readonly]="disabledInput"/>
+        
+    </div>
+    <div class="button-right ">
+        <div class="form-check form-switch display-check">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" (change)="checkedInputUser($event)">
+        </div>
+    </div>
+    <p></p>
+    <div class="form-group">
+        <input 
+        formControlName="message" 
+        placeholder="What's happening?"
+        type="text" 
+        style="border: none;" 
+        class="form-control" />
+
+    </div>
+    <p></p>
+
+    <div class="button-right">
+        <button type="button" class="btn btn-primary btn-sm" (click)="submitButtonFormSecondaryThread()">Comment the secondary thread</button>
+    </div>
+</form>

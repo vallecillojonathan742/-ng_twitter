@@ -15,6 +15,7 @@ import { AngularFireAuth, AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { PostService } from './services/post.service';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { PostSecondaryService } from './services/post-secondary.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
     
     
   ],
-  providers: [PostService,AngularFireAuth,AngularFireDatabase],
+  providers: [PostService,AngularFireAuth,AngularFireDatabase,PostSecondaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

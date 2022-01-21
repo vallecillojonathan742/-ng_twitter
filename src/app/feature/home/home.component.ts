@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
+import { CheckIfItIsMainThread } from 'src/app/models/check-if-it-is-main-thread';
 import { PostList } from 'src/app/models/post-list';
 import { FormTweetComponent } from '../form-tweet/form-tweet.component';
 
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submitFormTweet(post: PostList) {
+  submitFormTweet(post: CheckIfItIsMainThread) {
     this.formTweetComponent.editFormTweet(post);
   }
 
