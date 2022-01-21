@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Guid } from 'src/app/class/guide';
+import { PostList } from 'src/app/interfaces/post-list';
+import { PostListComponent } from '../post-list/post-list.component';
 
 @Component({
   selector: 'app-form-tweet',
@@ -8,14 +12,36 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class FormTweetComponent implements OnInit {
 
+  @Output()
+  public submit = new EventEmitter<PostList>();
+
   form = new FormGroup({
     message: new FormControl('', [Validators.required, Validators.maxLength(288)]),
-    user: new FormControl('User1', Validators.required)
+    user: new FormControl('User_'+Guid.newGuid(), Validators.required)
   });
   
-  constructor() { }
+  constructor() {
+   }
 
   ngOnInit(): void {
   }
+
+  submitButton()
+  {
+    if(this.form.valid)
+    {
+      debugger;
+      const post = new PostList();
+      post.user = this.form.controls['user'].value;
+      post.message = this.form.controls['message'].value;
+      this.submit.emit(post);
+    }
+    else
+    {
+      alert("ERROR!");
+    }
+  }
+
+  
 
 }
