@@ -1,5 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PostList } from 'src/app/interfaces/post-list';
+import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { CheckIfItIsMainThread } from 'src/app/models/check-if-it-is-main-thread';
+import { PostList } from 'src/app/models/post-list';
+import { PostListSecondary } from 'src/app/models/post-list-secondary';
+import { PostSecondaryService } from 'src/app/services/post-secondary.service';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-post-list',
@@ -8,119 +12,77 @@ import { PostList } from 'src/app/interfaces/post-list';
 })
 export class PostListComponent implements OnInit {
 
-  public postList: PostList[] = [];
-  originalPosts: PostList[] = [...this.postList];
+  @Output()
+  submit = new EventEmitter<CheckIfItIsMainThread>();
 
-  constructor() { }
+  public postList: PostList[] = [];
+
+  public postListSecondary: PostList[] = [];
+  public $key: string = '';
+
+  constructor(private postService: PostService, private postSecondaryService:PostSecondaryService) { }
 
   ngOnInit(): void {
-    this.tenSeconds();
+    this.postService.getPostLis()
+    .snapshotChanges()
+    .subscribe( item => {
+      this.postList = [];
+      item.forEach(element => {
+        let x = element.payload.toJSON();
+        console.log(x);
+        const data = new PostList();
+        Object.assign(data, x);
+        data.$key = (element.key == null) ? '' : element.key;
+        this.postList.unshift(data);
+      });
+     
+    }); 
   }
 
-  tenSeconds = () => {
-    this.tenTweets();
-    setTimeout(this.tenSeconds, 10000);
-  };
+  openThread(post: PostList) {
+    this.postListSecondary = [];
+    const checkIfItIsMainThread = new CheckIfItIsMainThread();
+    if(this.$key !== post.$key)
+    {
+      checkIfItIsMainThread.postList = post;
+      checkIfItIsMainThread.isItMainThread = true;
+      this.$key = post.$key;
 
-  tenTweets = () => {
-    for (let i = 0; i < 10; i++) {
-      let newPost = this.createPost();
-      this.postList.push(newPost);
-   
+      this.postSecondaryService.getPostLis()
+      .snapshotChanges()
+      .subscribe( item => {
+      this.postListSecondary = [];
+      item.forEach(element => {
+        let x = element.payload.toJSON();
+        const data = new PostListSecondary();
+        Object.assign(data, x);
+        if(data.keyFK == this.$key)
+        {
+          data.$key = (element.key == null) ? '' : element.key;
+          this.postListSecondary.unshift(data);
+        }
+      });
+     
+    }); 
     }
-    this.originalPosts = [...this.postList];
-  };
-
-  createPost = () => {
-    let post = new PostList();
-    post.user = this.selectRandomElement(this.usernames);
-    post.message = this.createRandomSentence();
-    post.createTweet = new Date();
-    return post;
-  };
-
-  createRandomSentence = () => {
-    return `${this.selectRandomElement(
-      this.beginning
-    )} ${this.selectRandomElement(this.verbs)} ${this.selectRandomElement(
-      this.posess
-    )} ${this.selectRandomElement(this.nouns)}`;
-  };
-
-  usernames = [
-    "BobLobLaw",
-    "WhoWhatWhenWhereAndWhy",
-    "User13135",
-    "Noob",
-    "ABCDEFB"
-  ];
-
-  beginning = [
-    "just",
-    "ask me how i",
-    "totally",
-    "nearly",
-    "productively",
-    "Who",
-    "last night i",
-    "the president",
-    "that dude",
-    "a dinosaur",
-    "a dog"
-  ];
-
-  verbs = [
-    "jumpped",
-    "ran",
-    "fell",
-    "drank",
-    "slipped",
-    "sat",
-    "saw",
-    "went",
-    "tripped",
-    "sped",
-    "built",
-    "started"
-  ];
-
-  posess = ["your", "the", "my", "that", "this", "a", "an"];
-
-  nouns = [
-    "car",
-    "cat",
-    "bike",
-    "dog",
-    "house",
-    "mouse",
-    "tree",
-    "mountain",
-    "building",
-    "computer",
-    "Nicolas Caige"
-  ];
-
-  selectRandomElement(arr: string[]) {
-    let randomIndex = Math.floor(Math.random() * arr.length);
-    return arr[randomIndex];
-  };
-
-  
-  onSelect(e:any): void {
-    this.postList = this.postList.filter(post => post.user === e.target.id);
-
+    else
+    {
+      checkIfItIsMainThread.postList = new PostList();
+      checkIfItIsMainThread.isItMainThread = false;
+      this.$key = '';
+    }
+    this.submit.emit(checkIfItIsMainThread);
   }
 
-  addPost(postArg: PostList) {
-    debugger;
-    let post = new PostList();
-    post.user = postArg.user;
-    post.message = postArg.message;
-    post.createTweet = new Date();
-    this.postList.unshift(post);
-    this.originalPosts = [...this.postList];
-  };
+  updatePost(post: PostList) {
+    const data = new CheckIfItIsMainThread();
+    data.postList = post;
+    data.isItMainThread = false;
+    this.submit.emit(data);
+  }
+ 
 
-
-
+  deletePost(post: PostList) {
+    this.postService.deletePost(post);
+  }
 }

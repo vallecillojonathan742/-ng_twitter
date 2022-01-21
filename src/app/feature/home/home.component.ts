@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { PostList } from 'src/app/interfaces/post-list';
-import { PostListComponent } from '../post-list/post-list.component';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
+import { CheckIfItIsMainThread } from 'src/app/models/check-if-it-is-main-thread';
+import { PostList } from 'src/app/models/post-list';
+import { FormTweetComponent } from '../form-tweet/form-tweet.component';
 
 @Component({
   selector: 'app-home',
@@ -8,19 +9,18 @@ import { PostListComponent } from '../post-list/post-list.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public title = "Home";
 
-  @ViewChild(PostListComponent)
-  contactComponent!: PostListComponent;
-  
+  @ViewChild(FormTweetComponent) formTweetComponent!: FormTweetComponent;
+
+  public title = "Home";
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  submitPostList(post:PostList) {
-    this.contactComponent.addPost(post);
+  submitFormTweet(post: CheckIfItIsMainThread) {
+    this.formTweetComponent.editFormTweet(post);
   }
 
 }

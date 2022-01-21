@@ -126,6 +126,16 @@
               "devServerTarget": "twitter-clone:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "twitter-clone:build:production",
+            "firebaseProject": "twitter-clone-3cf88",
+            "firebaseHostingSite": "twitter-clone-3cf88"
+          }
         }
       }
     }
